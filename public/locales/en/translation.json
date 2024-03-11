@@ -1,0 +1,12 @@
+{
+  "form": {
+    "url": "RSS Feed URL",
+    "submit": "Add Feed"
+  },
+  "errors": {
+    "url": {
+      "required": "URL is required",
+      "invalid": "Invalid URL"
+    }
+  }
+}
