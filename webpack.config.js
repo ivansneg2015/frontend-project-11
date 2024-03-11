@@ -1,7 +1,10 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-export default {
+const config = {
   mode: process.env.NODE_ENV || 'development',
+  devServer: {
+    open: true,
+  },
   module: {
     rules: [
       {
@@ -19,14 +22,6 @@ export default {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
       },
-      {
-        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'url-loader?limit=10000',
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        use: 'file-loader',
-      },
     ],
   },
   plugins: [
@@ -38,3 +33,5 @@ export default {
     clean: true,
   },
 };
+
+export default config;
