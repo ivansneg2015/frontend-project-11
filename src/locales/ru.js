@@ -1,29 +1,28 @@
 export default {
   translation: {
-    common: {
-      feeds: 'Фиды',
-      posts: 'Посты',
-      submit: 'Подождите...',
-      preview: 'Просмотр',
-      validated: 'RSS успешно загружен',
+    requestSection: {
+      mainTitle: 'RSS агрегатор',
+      leadText: 'Начните читать RSS сегодня! Это легко, это красиво.',
+      inputLabel: 'Ссылка RSS',
+      addButtonName: 'Добавить',
+      exampleText: 'Пример: https://lorem-rss.hexlet.app/feed',
     },
-    buttons: {
-      add: 'Добавить',
-      readFullArticle: 'Читать полностью',
-      close: 'Закрыть',
+    modalSection: {
+      readFullButton: 'Читать полностью',
+      closeButton: 'Закрыть',
     },
-    mainText: {
-      title: 'RSS агрегатор',
-      description: 'Начните читать RSS сегодня! Это легко, это красиво.',
-      linkRSS: 'Ссылка RSS',
-      example: 'Пример: https://ru.hexlet.io/lessons.rss',
-    },
-    errors: {
-      required: 'Это обязательное поле',
-      shouldBeValid: 'Ссылка должна быть валидным URL',
-      shouldBeUnique: 'RSS уже существует',
-      shouldContainRss: 'Ресурс не содержит валидный RSS',
-      networkError: 'Ошибка сети',
+    responseSection: {
+      feedsTitle: 'Фиды',
+      postsTitle: 'Посты',
+      successFeedback: 'RSS успешно загружен',
+      openLinkButton: 'Просмотр',
+      errors: {
+        notOneOf: 'RSS уже существует',
+        url: 'Ссылка должна быть валидным URL',
+        matches: 'Не должно быть пустым',
+        parsingError: 'Ресурс не содержит валидный RSS',
+        AxiosError: 'Ошибка сети',
+      },
     },
   },
 };
