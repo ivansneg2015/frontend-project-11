@@ -34,7 +34,7 @@ form.addEventListener('submit', (event) => {
     });
 });
 
-const watchedState = onChange(state, (path, value, previousValue) => {
+const watchedState = onChange(state, (path, value) => {
   if (path === 'inputValue') {
     isValid(value, watchedState.feeds)
       .then((validationError) => {
