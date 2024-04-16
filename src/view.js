@@ -21,7 +21,7 @@ export default (elements, i18n, state) => {
         feedsBody.classList.add('card', 'border-0');
         const feedsTitleDiv = document.createElement('div');
         const feedsTitle = document.createElement('h2');
-        feedsTitle.textContent = i18n.t ('responseSection.feedsTitle');
+        feedsTitle.textContent = i18n.t('responseSection.feedsTitle');
         feedsTitleDiv.classList.add('card-body');
         feedsTitle.classList.add('card-title', 'h4');
         feedsTitleDiv.append(feedsTitle);
@@ -29,7 +29,8 @@ export default (elements, i18n, state) => {
         feedsUL.classList.add('list-group', 'border-0', 'rounded-0');
         feedsBody.append(feedsTitleDiv, feedsUL);
         feedsContainer.append(feedsBody);
-        value.forEach(({ title, description }) => {
+        value.forEach((element) => {
+          const { title, description } = element;
           const feedItem = document.createElement('li');
           feedItem.classList.add('list-group-item', 'border-0', 'border-end-0');
           const feedItemTitle = document.createElement('h3');
@@ -60,17 +61,22 @@ export default (elements, i18n, state) => {
         const postsUL = document.createElement('ul');
         postsUL.classList.add('list-group', 'border-0', 'rounded-0');
         postsBody.append(postsTitleDiv, postsUL);
-        postsContainerContainerContainer.append(postsBody);
-        const previewedPosts = [...state.uiState.posts];
-        value.forEach(({ id, title, link }) => {
+        postsContainer.append(postsBody);
+        const previewedPosts = [];
+        state.uiState.posts.forEach((id) => previewedPosts.push(id));
+        value.forEach((element) => {
+          const { id, title, link } = element;
           const postItem = document.createElement('li');
           postItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
           const postLink = document.createElement('a');
           postLink.setAttribute('href', link);
-          postLink.classList.add('fw-bold', !previewedPosts.includes(id) && 'fw-normal');
+          if (!previewedPosts.includes(id)) {
+            postLink.classList.add('fw-bold');
+          }
           postLink.setAttribute('data-id', id);
           postLink.setAttribute('target', '_blank');
-          postLink.setAttribute('rel', 'noopener noreferrer');
+          postLink.setAttribute('rel', 'noopener');
+          postLink.setAttribute('rel', 'noreferrer');
           postLink.textContent = title;
           const postButton = document.createElement('button');
           postButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
@@ -79,7 +85,8 @@ export default (elements, i18n, state) => {
           postButton.setAttribute('data-bs-toggle', 'modal');
           postButton.setAttribute('data-bs-target', '#modal');
           postButton.textContent = i18n.t('responseSection.openLinkButton');
-          postItem.append(postLink, postButton);
+          postItem.append(postLink);
+          postItem.append(postButton);
           postsUL.append(postItem);
         });
         break;
@@ -88,27 +95,21 @@ export default (elements, i18n, state) => {
       case 'uiState.posts': {
         value.forEach((id) => {
           const postElement = document.querySelector(`a[data-id="${id}"]`);
-          postElement.classList.remove('fw-bold');
           postElement.classList.add('fw-normal');
+          postElement.classList.remove('fw-bold');
         });
         break;
       }
 
       case 'formState': {
-        switch (value) {
-          case 'waiting response':
-            submitButton.disabled = true;
-            break;
-          case 'processing':
-            submitButton.disabled = false;
-            form.reset();
-            inputElement.focus();
-            break;
-          case 'initial':
-            form.reset();
-            break;
-          default:
-            break;
+        if (value === 'waiting response') {
+          submitButton.disabled = true;
+        } else if (value === 'processing') {
+          submitButton.disabled = false;
+          form.reset();
+          inputElement.focus();
+        } else if (value === 'initial') {
+          form.reset();
         }
         break;
       }
