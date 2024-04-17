@@ -6,13 +6,10 @@ env:
 extends: airbnb-base
 
 parserOptions:
-  ecmaVersion: latest
+  ecmaVersion: 2021
   sourceType: module
 
 rules:
   no-console: 0
-  import/extensions:
-    - error
-    - ignorePackages
-    - js: always
-  no-underscore-dangle: [2, { 'allow': ['__filename', '__dirname'] }]
+  import/extensions: ['error', 'ignorePackages', { 'js': 'always' }]
+  no-underscore-dangle: [2, { 'allow': ['_filename', '_dirname'] }]
