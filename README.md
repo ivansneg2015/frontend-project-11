@@ -21,10 +21,11 @@ Simple feed aggregator, which collect RSS feeds and then watched for a new posts
 
 *Technology Stack: JavaScript, Bootstrap, ESLint, GitHub Actions (CI), Webpack, Yup, on-change, i18next, Axios, All Origins, Lodash*
 
-### To run locally on your machine (make sure that you have node.js and npm installed):
-#### install dependencies and let your system run the package
-`make install`
-#### build the webpack
-`make build`
-#### run the webpack on localhost
-`make start`
+install:
+	npm ci
+lint:
+	npx eslint .
+develop:
+	npx webpack serve
+build:
+	NODE_ENV=production npx webpack
