@@ -26,4 +26,3 @@ const initializeLocalization = () => {
 
 export default initializeLocalization();
 
-
