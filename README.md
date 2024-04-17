@@ -21,11 +21,11 @@ Simple feed aggregator, which collect RSS feeds and then watched for a new posts
 
 *Technology Stack: JavaScript, Bootstrap, ESLint, GitHub Actions (CI), Webpack, Yup, on-change, i18next, Axios, All Origins, Lodash*
 
-install:
+### install:
 	npm ci
-lint:
+### lint:
 	npx eslint .
-develop:
+### develop:
 	npx webpack serve
-build:
+### build:
 	NODE_ENV=production npx webpack
