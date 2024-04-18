@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-import isValid from './validation';
+import isValid from './validation.js';
 
 const state = {
   inputValue: '',
