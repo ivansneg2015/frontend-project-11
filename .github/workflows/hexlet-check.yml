@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-       node-version: '21' # Замените на вашу требуемую версию Node.js
+          node-version: '14' # Замените на вашу требуемую версию Node.js
 
       - name: Install dependencies
         run: npm install
