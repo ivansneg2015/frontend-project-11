@@ -1,27 +1,27 @@
 name: ESLint
 
 on:
-  push:
-    branches:
-      - main # замените на вашу основную ветку
+  - push
+  - pull_request
+
+env:
+  CI: true
 
 jobs:
-  lint:
-    name: Run ESLint
+  build:
+
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: '14' # замените на вашу желаемую версию Node.js
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run ESLint
-        run: npx eslint --config .eslintrc.yml .
-
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: make install
+      - run: make lint
