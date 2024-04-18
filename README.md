@@ -3,6 +3,9 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/47f16555e344757124bf/maintainability)](https://codeclimate.com/github/olya889/frontend-project-11/maintainability)
 
+[![ESLint](https://github.com/ivansneg2015/frontend-project-11/actions/workflows/eslint.yml/badge.svg)](https://github.com/ivansneg2015/frontend-project-11/actions/workflows/eslint.yml)
+
+
 https://frontend-project-11-2r85.vercel.app/
 
 **RSS aggregator** - service for aggregating RSS feeds, allows to add an unlimited number of RSS feeds, updates them itself and adds new entries to the common stream.
