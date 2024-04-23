@@ -440,6 +440,10 @@ th {
   border-width: 0;
 }
 
+.error-border {
+  border-color: red;
+}
+
 label {
   display: inline-block;
 }
