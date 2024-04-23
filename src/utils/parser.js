@@ -6,7 +6,6 @@ export default (rssData, i18n) => {
   if (parserError) {
     // Получаем содержимое элемента parsererror
     const errorContent = parserError.textContent.trim();
-    
     // Создаем объект ошибки с дополнительной информацией
     const errorMessage = i18n.t('errors.shouldContainRss');
     const error = new Error(errorMessage);
