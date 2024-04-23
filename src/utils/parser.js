@@ -4,10 +4,15 @@ export default (rssData, i18n) => {
 
   const parserError = xmlDoc.querySelector('parsererror');
   if (parserError) {
+    // Получаем содержимое элемента parsererror
+    const errorContent = parserError.textContent.trim();
+    
+    // Создаем объект ошибки с дополнительной информацией
     const errorMessage = i18n.t('errors.shouldContainRss');
     const error = new Error(errorMessage);
     error.isParserError = true;
     error.localizedErrorMessage = errorMessage;
+    error.parserErrorContent = errorContent; // Добавляем содержимое parserError
     throw error;
   }
 
