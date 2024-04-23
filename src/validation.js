@@ -1,13 +1,14 @@
 import * as yup from 'yup';
+import i18next from 'i18next';
 
 const isUrlInList = (url, feeds) => feeds.includes(url);
 
 const isValid = (url, feeds) => {
   const validationSchema = yup.object().shape({
     url: yup.string()
-      .url('Введите корректную ссылку.')
-      .test('is-unique', 'Такой URL уже добавлен', (value) => !isUrlInList(value, feeds))
-      .required('Введите URL.'),
+      .url(i18next.t('validation.url.invalid'))
+      .test('is-unique', i18next.t('validation.url.unique'), (value) => !isUrlInList(value, feeds))
+      .required(i18next.t('validation.url.required')),
   });
 
   return validationSchema.validate({ url })

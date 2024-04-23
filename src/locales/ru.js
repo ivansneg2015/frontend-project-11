@@ -1,5 +1,12 @@
 export default {
   translation: {
+    validation: {
+      url: {
+        invalid: "Введите корректный URL-адрес.",
+        unique: "Этот URL уже добавлен.",
+        required: "Введите URL-адрес."
+      }
+    },
     requestSection: {
       mainTitle: 'RSS агрегатор',
       leadText: 'Начните читать RSS сегодня! Это легко, это красиво.',
