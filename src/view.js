@@ -13,10 +13,6 @@ export default (elements, i18n, state) => {
   };
 
   const updateFeeds = (value) => {
-    postsContainer.replaceChildren();
-    feedsContainer.replaceChildren();
-    inputElement.classList.remove('is-invalid');
-
     const feedsBody = document.createElement('div');
     feedsBody.classList.add('card', 'border-0');
 
@@ -31,7 +27,6 @@ export default (elements, i18n, state) => {
     feedsUL.classList.add('list-group', 'border-0', 'rounded-0');
 
     feedsBody.append(feedsTitleDiv, feedsUL);
-    feedsContainer.append(feedsBody);
 
     value.forEach(({ title, description }) => {
       const feedItem = document.createElement('li');
@@ -49,14 +44,14 @@ export default (elements, i18n, state) => {
       feedsUL.append(feedItem);
     });
 
+    feedsContainer.replaceChildren(feedsBody);
+
     feedbackElement.classList.remove('text-danger');
     feedbackElement.classList.add('text-success');
     feedbackElement.textContent = i18n.t('responseSection.successFeedback');
   };
 
   const updatePosts = (value) => {
-    postsContainer.replaceChildren();
-
     const postsBody = document.createElement('div');
     postsBody.classList.add('card', 'border-0');
 
@@ -71,7 +66,6 @@ export default (elements, i18n, state) => {
     postsUL.classList.add('list-group', 'border-0', 'rounded-0');
 
     postsBody.append(postsTitleDiv, postsUL);
-    postsContainer.append(postsBody);
 
     const previewedPosts = new Set(state.uiState.posts);
 
@@ -98,6 +92,8 @@ export default (elements, i18n, state) => {
       postItem.append(postLink, postButton);
       postsUL.append(postItem);
     });
+
+    postsContainer.replaceChildren(postsBody);
   };
 
   const updateUiPosts = (value) => {
