@@ -1,5 +1,4 @@
 export default (rss, response) => {
-  const posts = [];
   const parser = new DOMParser();
   const xmlString = response.data.contents;
   const responseData = parser.parseFromString(xmlString, 'text/xml');
@@ -8,7 +7,6 @@ export default (rss, response) => {
     const errorMessage = errorNode.textContent.trim();
     const err = new Error(`Parsing error: ${errorMessage}`);
     err.name = 'parsingError';
-    // Добавляем информацию об ошибке в объект ошибки
     err.errorDetails = errorMessage;
     throw err;
   }
@@ -20,19 +18,17 @@ export default (rss, response) => {
     title: channelTitle,
     description: channelDescription,
   };
-  const items = channel.querySelectorAll('item');
-  items.forEach((item) => {
+  const items = Array.from(channel.querySelectorAll('item')).map((item) => {
     const postPubDate = new Date(item.querySelector('pubDate').textContent);
     const postTitle = item.querySelector('title').textContent;
     const postLink = item.querySelector('link').textContent;
     const postDescription = item.querySelector('description').textContent;
-    const post = {
+    return {
       title: postTitle,
       link: postLink,
       postPubDate,
       description: postDescription,
     };
-    posts.push(post);
   });
-  return { feed, posts };
+  return { feed, posts: items };
 };
