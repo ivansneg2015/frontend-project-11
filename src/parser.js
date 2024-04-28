@@ -1,26 +1,38 @@
-export default (data) => {
+export default (rss, response) => {
+  const posts = [];
   const parser = new DOMParser();
-  const doc = parser.parseFromString(data, 'text/xml');
-  // Проверяем наличие ошибки парсинга
-  const errorNode = doc.querySelector('parsererror');
+  const xmlString = response.data.contents;
+  const responseData = parser.parseFromString(xmlString, 'text/xml');
+  const errorNode = responseData.querySelector('parsererror');
   if (errorNode) {
-    // Извлекаем текст ошибки
-    const errorMessage = errorNode.textContent;
-    const error = new Error(`Parsing error: ${errorMessage}`);
-    error.name = 'ParsingError';
-    throw error;
+    const errorMessage = errorNode.textContent.trim();
+    const err = new Error(`Parsing error: ${errorMessage}`);
+    err.name = 'parsingError';
+    // Добавляем информацию об ошибке в объект ошибки
+    err.errorDetails = errorMessage;
+    throw err;
   }
+  const channel = responseData.querySelector('channel');
+  const channelTitle = channel.querySelector('title').textContent;
+  const channelDescription = channel.querySelector('description').textContent;
   const feed = {
-    title: doc.querySelector('title').textContent,
-    description: doc.querySelector('description').textContent,
+    rss,
+    title: channelTitle,
+    description: channelDescription,
   };
-  const itemsEl = doc.querySelectorAll('item');
-  const items = Array.from(itemsEl).map((item) => {
-    const title = item.querySelector('title').textContent;
-    const description = item.querySelector('description').textContent;
-    const link = item.querySelector('link').textContent;
-
-    return { title, description, link };
+  const items = channel.querySelectorAll('item');
+  items.forEach((item) => {
+    const postPubDate = new Date(item.querySelector('pubDate').textContent);
+    const postTitle = item.querySelector('title').textContent;
+    const postLink = item.querySelector('link').textContent;
+    const postDescription = item.querySelector('description').textContent;
+    const post = {
+      title: postTitle,
+      link: postLink,
+      postPubDate,
+      description: postDescription,
+    };
+    posts.push(post);
   });
-  return { feed, items };
+  return { feed, posts };
 };
