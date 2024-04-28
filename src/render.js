@@ -1,24 +1,23 @@
 /* eslint-disable no-param-reassign */
 const handleErrors = (elements, error) => {
   const { input, notificationBox } = elements;
-  input.style.border = '2px solid red';
+  input.classList.add('error');
   notificationBox.textContent = error;
   notificationBox.classList.add('text-danger');
 };
 
-const buildElement = (tagName, { style = [], textContent } = {}) => {
+const buildElement = (tagName, { classes = [], textContent } = {}) => {
   const element = document.createElement(tagName);
-  element.classList.add(...style);
-  element.style.color = element.classList.contains('fw-normal') && 'gray';
+  element.classList.add(...classes);
   if (textContent) element.textContent = textContent;
   return element;
 };
 
 const buildContainer = (title, i18n, list) => {
-  const container = buildElement('div', { style: ['card', 'border-0'] });
-  const cardBody = buildElement('div', { style: 'card-body' });
-  const cardTitle = buildElement('h2', { style: ['card-title', 'h4'], textContent: i18n.t(title) });
-  const ulList = buildElement('ul', { style: ['list-group', 'border-0', 'rounded-0'] });
+  const container = buildElement('div', { classes: ['card', 'border-0'] });
+  const cardBody = buildElement('div', { classes: ['card-body'] });
+  const cardTitle = buildElement('h2', { classes: ['card-title', 'h4'], textContent: i18n.t(title) });
+  const ulList = buildElement('ul', { classes: ['list-group', 'border-0', 'rounded-0'] });
   cardBody.innerHTML = '';
   cardBody.append(cardTitle);
   ulList.append(...list);
@@ -37,7 +36,7 @@ const handleFormState = (elements, formState, i18n) => {
       submit.disabled = true;
       notificationBox.textContent = i18n.t('common.submit');
       notificationBox.classList.remove('text-danger');
-      notificationBox.style.color = 'white';
+      notificationBox.classList.add('submitting');
       break;
     default:
       throw new Error(`Unexpected form state: ${formState}`);
@@ -46,9 +45,9 @@ const handleFormState = (elements, formState, i18n) => {
 
 const handleFeeds = (feeds, divContainer, i18n, feedsName) => {
   const listFeeds = feeds.map(({ title, description }) => {
-    const li = buildElement('li', { style: ['list-group-item', 'border-0', 'border-end-0'] });
-    const feedTitle = buildElement('h3', { style: ['h6', 'm-0'], textContent: title });
-    const feedDesc = buildElement('p', { style: ['m-0', 'small', 'text-black-50'], textContent: description });
+    const li = buildElement('li', { classes: ['list-group-item', 'border-0', 'border-end-0'] });
+    const feedTitle = buildElement('h3', { classes: ['h6', 'm-0'], textContent: title });
+    const feedDesc = buildElement('p', { classes: ['m-0', 'small', 'text-black-50'], textContent: description });
     li.append(feedTitle, feedDesc);
     return li;
   });
@@ -57,16 +56,16 @@ const handleFeeds = (feeds, divContainer, i18n, feedsName) => {
 
 const handlePosts = (posts, divContainer, i18n, postsName, state) => {
   const listPosts = posts.map(({ id, title, link }) => {
-    const li = buildElement('li', { style: ['list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0'] });
+    const li = buildElement('li', { classes: ['list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0'] });
     const linkEl = buildElement('a', {
-      style: [state.seenIds.has(id) ? ['fw-normal'] : ['fw-bold']],
+      classes: [state.seenIds.has(id) ? 'fw-normal' : 'fw-bold'],
       textContent: title,
     });
     linkEl.href = link;
     linkEl.target = '_blank';
     linkEl.rel = 'noopener noreferrer';
     linkEl.setAttribute('data-id', id);
-    const button = buildElement('button', { style: ['btn', 'btn-outline-primary', 'btn-sm'], textContent: i18n.t('common.preview') });
+    const button = buildElement('button', { classes: ['btn', 'btn-outline-primary', 'btn-sm'], textContent: i18n.t('common.preview') });
     button.type = 'button';
     button.setAttribute('data-id', id);
     button.setAttribute('data-bs-toggle', 'modal');
@@ -98,9 +97,9 @@ export default (elements, state, i18n) => (path, value) => {
       break;
 
     case 'feeds':
-      input.style.border = '';
+      input.classList.remove('error');
       notificationBox.classList.remove('text-danger');
-      notificationBox.style.color = 'green';
+      notificationBox.classList.add('validated');
       notificationBox.textContent = i18n.t('common.validated');
       handleFeeds(feeds, feedsDiv, i18n, 'common.feeds', state);
       input.value = '';
