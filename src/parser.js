@@ -4,11 +4,15 @@ export default (rss, response) => {
   const xmlString = response.data.contents;
   const responseData = parser.parseFromString(xmlString, 'text/xml');
 
-  if (responseData.querySelector('parsererror')) {
-    const err = new Error();
-    err.name = 'parsingError';
+  // Проверяем наличие ошибки парсинга
+  const parserError = responseData.querySelector('parsererror');
+  if (parserError) {
+    const err = new Error('XML parsing error');
+    err.name = 'ParsingError';
+    err.details = parserError.textContent; // Сохраняем информацию о проблеме парсинга
     throw err;
   }
+
   const channel = responseData.querySelector('channel');
   const channelTitle = channel.querySelector('title').textContent;
   const channelDescription = channel.querySelector('description').textContent;
@@ -17,6 +21,7 @@ export default (rss, response) => {
     title: channelTitle,
     description: channelDescription,
   };
+
   const items = channel.querySelectorAll('item');
   items.forEach((item) => {
     const postPubDate = new Date(item.querySelector('pubDate').textContent);
@@ -31,5 +36,6 @@ export default (rss, response) => {
     };
     posts.push(post);
   });
+
   return { feed, posts };
 };
