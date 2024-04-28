@@ -1,41 +1,31 @@
-export default (rss, response) => {
-  const posts = [];
-  const parser = new DOMParser();
+import { parseString } from 'xml2js';
+
+export default async (rss, response) => {
   const xmlString = response.data.contents;
-  const responseData = parser.parseFromString(xmlString, 'text/xml');
 
-  // Проверяем наличие ошибки парсинга
-  const parserError = responseData.querySelector('parsererror');
-  if (parserError) {
-    const err = new Error('XML parsing error');
-    err.name = 'ParsingError';
-    err.details = parserError.textContent; // Сохраняем информацию о проблеме парсинга
-    throw err;
-  }
+  return new Promise((resolve, reject) => {
+    parseString(xmlString, (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
 
-  const channel = responseData.querySelector('channel');
-  const channelTitle = channel.querySelector('title').textContent;
-  const channelDescription = channel.querySelector('description').textContent;
-  const feed = {
-    rss,
-    title: channelTitle,
-    description: channelDescription,
-  };
+      const { channel } = result.rss;
+      const channelTitle = channel[0].title[0];
+      const channelDescription = channel[0].description[0];
+      const feed = {
+        rss,
+        title: channelTitle,
+        description: channelDescription,
+      };
+      const posts = channel[0].item.map((item) => ({
+        title: item.title[0],
+        link: item.link[0],
+        postPubDate: new Date(item.pubDate[0]),
+        description: item.description[0],
+      }));
 
-  const items = channel.querySelectorAll('item');
-  items.forEach((item) => {
-    const postPubDate = new Date(item.querySelector('pubDate').textContent);
-    const postTitle = item.querySelector('title').textContent;
-    const postLink = item.querySelector('link').textContent;
-    const postDescription = item.querySelector('description').textContent;
-    const post = {
-      title: postTitle,
-      link: postLink,
-      postPubDate,
-      description: postDescription,
-    };
-    posts.push(post);
+      resolve({ feed, posts });
+    });
   });
-
-  return { feed, posts };
 };
