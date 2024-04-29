@@ -120,7 +120,7 @@ export default () => {
             elements.postsContainer.addEventListener('click', (event) => {
               if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON') {
                 const targetID = event.target.getAttribute('data-id');
-                const targetPost = state.posts.find((post) => post.id === targetID);
+                const targetPost = createState.posts.find((post) => post.id === targetID);
                 elements.modalTitle.textContent = targetPost.title;
                 elements.modalBody.textContent = targetPost.description;
                 elements.readFullButton.setAttribute('href', targetPost.link);
