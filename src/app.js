@@ -6,6 +6,7 @@ import resources from './locales/index.js';
 import watch from './view.js';
 import parse from './parser.js';
 import init from './init.js';
+import state from './state.js';
 
 export default () => {
   const elements = {
@@ -24,17 +25,6 @@ export default () => {
     readFullButton: document.querySelector('a.full-article'),
     modalCloseButton: document.querySelector('button.btn-secondary'),
   };
-
-  const state = {
-    feeds: [],
-    posts: [],
-    error: '',
-    uiState: {
-      posts: new Set(),
-    },
-    formState: 'initial',
-  };
-
   const validateRss = (url, watchedState) => {
     const links = watchedState.feeds.map((feed) => {
       const { rss } = feed;
