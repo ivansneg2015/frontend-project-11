@@ -2,7 +2,6 @@ import onChange from 'on-change';
 import isValid from './validation.js';
 import state from './state.js';
 
-
 const form = document.getElementById('rss-form');
 const input = document.getElementById('url-input');
 
