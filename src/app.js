@@ -7,6 +7,16 @@ import watch from './view.js';
 import parse from './parser.js';
 import init from './init.js';
 
+export const createState = () => ({
+  feeds: [],
+  posts: [],
+  error: '',
+  uiState: {
+    posts: new Set(),
+  },
+  formState: 'initial',
+});
+
 export default () => {
   const elements = {
     form: document.querySelector('form'),
@@ -24,15 +34,7 @@ export default () => {
     readFullButton: document.querySelector('a.full-article'),
     modalCloseButton: document.querySelector('button.btn-secondary'),
   };
-  const state = {
-    feeds: [],
-    posts: [],
-    error: '',
-    uiState: {
-      posts: new Set(),
-    },
-    formState: 'initial',
-  };
+
   const validateRss = (url, watchedState) => {
     const links = watchedState.feeds.map((feed) => {
       const { rss } = feed;
@@ -79,7 +81,7 @@ export default () => {
     resources,
   })
     .then(() => {
-      const watchedState = watch(elements, i18nextInstance, state);
+      const watchedState = watch(elements, i18nextInstance, createState());
       setLocale({
         string: {
           url: () => ({ key: 'responseSection.errors.url' }),
