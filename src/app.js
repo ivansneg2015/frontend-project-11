@@ -81,7 +81,7 @@ export default () => {
     resources,
   })
     .then(() => {
-      const watchedState = watch(elements, i18nextInstance, createState());
+      const watchedState = watch(elements, i18nextInstance, state());
       setLocale({
         string: {
           url: () => ({ key: 'responseSection.errors.url' }),
