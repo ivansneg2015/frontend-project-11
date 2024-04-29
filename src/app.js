@@ -24,7 +24,6 @@ export default () => {
     readFullButton: document.querySelector('a.full-article'),
     modalCloseButton: document.querySelector('button.btn-secondary'),
   };
-  
   const state = {
     feeds: [],
     posts: [],
@@ -34,7 +33,6 @@ export default () => {
     },
     formState: 'initial',
   };
-
   const validateRss = (url, watchedState) => {
     const links = watchedState.feeds.map((feed) => {
       const { rss } = feed;
